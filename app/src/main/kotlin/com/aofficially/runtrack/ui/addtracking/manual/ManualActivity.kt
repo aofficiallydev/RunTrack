@@ -52,6 +52,7 @@ class ManualActivity :
         }
 
         viewModel.updateSuccess.observe(this) {
+            binding.tvNumberBib.setText("")
             NewNotificationUtil.showCustomNotification(
                 activity = this,
                 runBib = it.runBid,
