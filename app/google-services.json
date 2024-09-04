@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394196814510",
+    "project_id": "unitedrun-149b2",
+    "storage_bucket": "unitedrun-149b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394196814510:android:117e706552c8b81e95fb3f",
+        "android_client_info": {
+          "package_name": "com.aofficially.runtrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD04c23qhgeTGz8w-YBEsi-yf8pyf5xC-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

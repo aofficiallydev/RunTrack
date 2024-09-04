@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgEvent"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/spacing32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize4Percent"
+        tools:background="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEventName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing16"
+        android:layout_marginTop="@dimen/spacing16"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text16"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgEvent"
+        tools:text="Name" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing32"
+        android:layout_marginTop="@dimen/spacing24"
+        android:background="@drawable/round4_stroke_black"
+        android:hint="@string/hint_username"
+        android:padding="@dimen/spacing8"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEventName" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing16"
+        android:background="@drawable/round4_stroke_black"
+        android:hint="@string/hint_Password"
+        android:inputType="textPassword"
+        android:padding="@dimen/spacing8"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text16"
+        app:layout_constraintEnd_toEndOf="@id/edtUsername"
+        app:layout_constraintStart_toStartOf="@id/edtUsername"
+        app:layout_constraintTop_toBottomOf="@id/edtUsername" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing32"
+        android:layout_marginTop="@dimen/spacing24"
+        android:text="@string/common_login"
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="@id/edtUsername"
+        app:layout_constraintStart_toStartOf="@id/edtUsername"
+        app:layout_constraintTop_toBottomOf="@id/edtPassword" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

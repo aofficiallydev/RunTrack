@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/round12_green" android:state_enabled="true" />
+    <item android:drawable="@drawable/round12_gray" android:state_enabled="false" />
+    <!-- default state-->
+    <item android:drawable="@drawable/round12_gray" />
+</selector>

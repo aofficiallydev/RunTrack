@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/spacing16">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvBib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#E84B4B"
+        android:textSize="@dimen/text28"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="5003" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icUpload"
+        android:layout_width="@dimen/spacing16"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tvBib"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvBib"
+        app:srcCompat="@drawable/ic_upload"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text28"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/tvBib"
+        app:layout_constraintTop_toBottomOf="@id/tvBib"
+        tools:text="Napasrapee Jiamprasert" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing12"
+        android:textSize="@dimen/text20"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        tools:text="M LPMT 55" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#E84B4B"
+        android:textSize="@dimen/text16"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/tvBib"
+        app:layout_constraintTop_toBottomOf="@id/tvGroup"
+        tools:text="HH:MM:SS" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
