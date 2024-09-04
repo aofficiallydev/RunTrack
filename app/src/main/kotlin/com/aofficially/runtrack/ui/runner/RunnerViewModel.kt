@@ -32,22 +32,20 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
 
     fun resetRunner(context: Context, runBib: String) {
         viewModelScope.launch {
-            val runnerList = RunnerDatabase(context)
+            RunnerDatabase(context)
                 .runnerDao()
-                .getRunner(runBib)
+                .getRunner(runBib)?.let {runner ->
+                        runner.timeStamp = 0
+                        runner.dateIn = ""
+                        runner.dateOut = ""
+                        runner.timeInt = ""
+                        runner.timeOut = ""
+                        runner.runStatus = RunnerStatus.IN_RACE.status
+                        runner.hasUpdate = false
+                        runner.isUpLoaded = false
 
-            runnerList.let {
-                it.timeStamp = 0
-                it.dateIn = ""
-                it.dateOut = ""
-                it.timeInt = ""
-                it.timeOut = ""
-                it.runStatus = RunnerStatus.IN_RACE.status
-                it.hasUpdate = false
-                it.isUpLoaded = false
-            }
-
-            updateRunner(context, runnerList)
+                    updateRunner(context, runner)
+                }
         }
     }
 

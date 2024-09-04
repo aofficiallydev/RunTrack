@@ -17,6 +17,7 @@ import com.aofficially.runtrack.utils.preference.PreferenceDataSourceImp.Compani
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -76,18 +77,35 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun clearRunnerList(context: Context) {
+    fun logout(context: Context) {
         pref.apply {
             putString(KEY_RACE_ID, "")
             putString(KEY_STATION_ID, "")
             putString(KEY_STATION_NAME, "")
         }
         viewModelScope.launch {
-            RunnerDatabase(context)
+            val runnerList = RunnerDatabase(context)
                 .runnerDao()
-                .clearRunner()
+                .getAllRunner().filter { it.hasUpdate && it.isUpLoaded.not() }
 
-            _logout.value = Unit
+            if (runnerList.isNotEmpty()) {
+                showLoading()
+                uploadRunnerUseCase.execute(runnerList)
+                    .flowOn(Dispatchers.IO)
+                    .catch { }
+                    .onEach { _ ->
+                        runnerList.map {
+                            it.isUpLoaded = true
+                        }
+                        updateRunnerAfterUpload(context, runnerList)
+                        delay(1000)
+                        hideLoading()
+                        _logout.value = Unit
+                    }
+                    .launchIn(viewModelScope)
+            } else {
+                _logout.value = Unit
+            }
         }
     }
 
@@ -129,20 +147,26 @@ class MainViewModel @Inject constructor(
                 .getAllRunner().filter { it.hasUpdate && it.isUpLoaded.not() }
 
             if (runnerList.isNotEmpty()) {
-                uploadRunnerUseCase.execute(runnerList)
-                    .flowOn(Dispatchers.IO)
-                    .catch { }
-                    .onEach { _ ->
-                        runnerList.map {
-                            it.isUpLoaded = true
-                        }
-                        updateRunnerAfterUpload(context, runnerList)
-                    }
-                    .launchIn(viewModelScope)
+                requestUploadRunnerList(context, runnerList)
             } else {
                 _displayUploadEmpty.value = Unit
             }
         }
+    }
+
+    private fun requestUploadRunnerList(context: Context, runnerList: List<RunnerEntity>) {
+        uploadRunnerUseCase.execute(runnerList)
+            .flowOn(Dispatchers.IO)
+            .catch { }
+            .onEach { _ ->
+                runnerList.map {
+                    it.isUpLoaded = true
+                }
+                updateRunnerAfterUpload(context, runnerList)
+                delay(1000)
+                _uploadSuccess.value = runnerList.size
+            }
+            .launchIn(viewModelScope)
     }
 
     private suspend fun updateRunnerAfterUpload(context: Context, runner: List<RunnerEntity>) {
@@ -151,7 +175,5 @@ class MainViewModel @Inject constructor(
                 .runnerDao()
                 .updateRunner(it)
         }
-
-        _uploadSuccess.value = runner.size
     }
 }

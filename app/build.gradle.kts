@@ -29,6 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -95,6 +96,9 @@ dependencies {
 
     //keyboard number
     implementation("com.konaire.numeric-keyboard:numeric-keyboard:1.2.0")
+
+    //number picker
+    implementation("io.github.ShawnLin013:number-picker:2.4.13")
 }
 
 kapt {

@@ -16,7 +16,7 @@ interface RunnerDao {
     suspend fun getAllRunner(): List<RunnerEntity>
 
     @Query("select * from runnerentity where run_Bid = :runBid")
-    suspend fun getRunner(runBid: String): RunnerEntity
+    suspend fun getRunner(runBid: String): RunnerEntity?
 
     @Query("SELECT * FROM runnerentity WHERE run_Bid LIKE :keyword OR run_Firstname LIKE :keyword OR run_Lastname LIKE :keyword")
     suspend fun findRunner(keyword: String): List<RunnerEntity>

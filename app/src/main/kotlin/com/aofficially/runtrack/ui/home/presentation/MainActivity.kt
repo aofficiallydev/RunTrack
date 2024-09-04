@@ -157,7 +157,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             message = getString(R.string.logout_des),
             positiveText = getString(R.string.logout),
             onPositive = {
-                viewModel.clearRunnerList(this)
+                viewModel.logout(this)
             },
             negativeText = getString(R.string.cancel),
             onNegative = {}

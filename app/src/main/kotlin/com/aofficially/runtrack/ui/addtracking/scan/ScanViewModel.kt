@@ -11,9 +11,7 @@ import com.aofficially.runtrack.extensions.getCurrentDate
 import com.aofficially.runtrack.extensions.getCurrentTime
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -25,27 +23,32 @@ class ScanViewModel @Inject constructor() : BaseViewModel() {
     private val _updateSuccess = MutableLiveData<RunnerEntity>()
     val updateSuccess: LiveData<RunnerEntity> = _updateSuccess
 
+    private val _notFoundRunner = MutableLiveData<String>()
+    val notFoundRunner: LiveData<String> = _notFoundRunner
+
     fun initContext(context: Context) {
         this.context = context
     }
 
     fun getRunner(runBib: String, isInRace: Boolean) {
         viewModelScope.launch {
-            val runner = RunnerDatabase(context)
+            RunnerDatabase(context)
                 .runnerDao()
-                .getRunner(runBib)
+                .getRunner(runBib)?.let { runner ->
+                    runner.timeStamp = Calendar.getInstance().timeInMillis
+                    runner.dateIn = getCurrentDate()
+                    runner.dateOut = getCurrentDate()
+                    runner.timeInt = getCurrentTime()
+                    runner.timeOut = getCurrentTime()
+                    runner.runStatus =
+                        if (isInRace) RunnerStatus.IN_RACE.status else RunnerStatus.DNF.status
+                    runner.hasUpdate = true
+                    runner.isUpLoaded = false
 
-            runner.timeStamp = Calendar.getInstance().timeInMillis
-            runner.dateIn = getCurrentDate()
-            runner.dateOut = getCurrentDate()
-            runner.timeInt = getCurrentTime()
-            runner.timeOut = getCurrentTime()
-            runner.runStatus =
-                if (isInRace) RunnerStatus.IN_RACE.status else RunnerStatus.DNF.status
-            runner.hasUpdate = true
-            runner.isUpLoaded = false
-
-            updateRunner(runner)
+                    updateRunner(runner)
+                } ?: run {
+                _notFoundRunner.value = runBib
+            }
         }
     }
 

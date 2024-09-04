@@ -10,9 +10,13 @@ import com.aofficially.runtrack.databinding.ActivityManualBinding
 import com.aofficially.runtrack.extensions.getCurrentDate
 import com.aofficially.runtrack.extensions.getCurrentTime
 import com.aofficially.runtrack.extensions.setOnClickWithDebounce
+import com.aofficially.runtrack.ui.addtracking.manual.bottomsheet.SecondBottomSheetDialog
+import com.aofficially.runtrack.ui.addtracking.manual.picker.DatePickerFragment
+import com.aofficially.runtrack.ui.addtracking.manual.picker.TimePickerFragment
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
 import com.aofficially.runtrack.utils.NewNotificationUtil
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class ManualActivity :
@@ -72,8 +76,48 @@ class ManualActivity :
                 context = this,
                 date = binding.tvDate.text.toString(),
                 hour = binding.tvHourTime.text.toString(),
-                second = binding.tvSecTime.text.toString()
+                second = binding.tvSecTime.text.toString().dropLast(1)
             )
+        }
+
+        binding.tvDate.setOnClickWithDebounce {
+            showDatePicker()
+        }
+
+        binding.tvHourTime.setOnClickWithDebounce {
+            showTimePicker()
+        }
+
+        binding.tvSecTime.setOnClickWithDebounce {
+            showSecondTimeDialog()
+        }
+    }
+
+    private fun showDatePicker() {
+        val datePicker = DatePickerFragment()
+        datePicker.show(supportFragmentManager, "")
+        datePicker.onDateSelected = { year, month, day ->
+
+            val date = "${String.format("%02d", day)}/${String.format("%02d", month)}/${year + 543}"
+            binding.tvDate.text = date
+        }
+    }
+
+    private fun showTimePicker() {
+        val timePicker = TimePickerFragment()
+        timePicker.show(supportFragmentManager, "")
+        timePicker.onTimeSelected = { hour, min ->
+
+            val date = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
+            binding.tvHourTime.text = date
+        }
+    }
+
+    private fun showSecondTimeDialog() {
+        val secPicker = SecondBottomSheetDialog()
+        supportFragmentManager.let { secPicker.show(it, "LogoutBottomSheetDialog") }
+        secPicker.onSelectedListener = {
+            binding.tvSecTime.text = "${it}s"
         }
     }
 

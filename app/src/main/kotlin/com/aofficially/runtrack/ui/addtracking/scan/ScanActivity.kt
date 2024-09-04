@@ -56,7 +56,7 @@ class ScanActivity :
             runOnUiThread {
                 Toast.makeText(
                     this, "Camera initialization error: ${it.message}",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -74,6 +74,14 @@ class ScanActivity :
                 runDate = it.dateIn,
                 isInRace = it.runStatus == RunnerStatus.IN_RACE.status
             )
+        }
+
+        viewModel.notFoundRunner.observe(this) {
+            codeScanner.startPreview()
+            Toast.makeText(
+                this, "Runner not found: $it",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
