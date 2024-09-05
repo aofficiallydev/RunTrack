@@ -8,6 +8,7 @@ import com.aofficially.runtrack.base.BaseViewModel
 import com.aofficially.runtrack.database.RunnerDatabase
 import com.aofficially.runtrack.database.RunnerEntity
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
+import com.aofficially.runtrack.ui.runner.domain.RunnerSize
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -18,6 +19,9 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
     private val _displayRunners = MutableLiveData<List<RunnerEntity>>()
     val displayRunners: LiveData<List<RunnerEntity>> = _displayRunners
 
+    private val _displayRunnerSize = MutableLiveData<RunnerSize>()
+    val displayRunnerSize: LiveData<RunnerSize> = _displayRunnerSize
+
     private var runnerList: List<RunnerEntity> = mutableListOf()
 
     fun getMemberList(context: Context) {
@@ -27,22 +31,41 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
                 .getAllRunner()
 
             _displayRunners.value = filterRunnerToDisplay()
+            _displayRunnerSize.value = RunnerSize(
+                all = runnerList.size,
+                inRace = filterRunnerInRace(),
+                dnf = filterRunnerDNF()
+            )
         }
+    }
+
+    private fun filterRunnerInRace(): Int {
+        return runnerList.filter { it.hasUpdate }
+            .filter {
+                it.runStatus == RunnerStatus.IN_RACE.status
+            }.size
+    }
+
+    private fun filterRunnerDNF(): Int {
+        return runnerList.filter { it.hasUpdate }
+            .filter {
+                it.runStatus == RunnerStatus.DNF.status
+            }.size
     }
 
     fun resetRunner(context: Context, runBib: String) {
         viewModelScope.launch {
             RunnerDatabase(context)
                 .runnerDao()
-                .getRunner(runBib)?.let {runner ->
-                        runner.timeStamp = 0
-                        runner.dateIn = ""
-                        runner.dateOut = ""
-                        runner.timeInt = ""
-                        runner.timeOut = ""
-                        runner.runStatus = RunnerStatus.IN_RACE.status
-                        runner.hasUpdate = false
-                        runner.isUpLoaded = false
+                .getRunner(runBib)?.let { runner ->
+                    runner.timeStamp = 0
+                    runner.dateIn = ""
+                    runner.dateOut = ""
+                    runner.timeInt = ""
+                    runner.timeOut = ""
+                    runner.runStatus = RunnerStatus.IN_RACE.status
+                    runner.hasUpdate = false
+                    runner.isUpLoaded = false
 
                     updateRunner(context, runner)
                 }

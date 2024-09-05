@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class RunnerEntity(
-    @PrimaryKey(autoGenerate = true)
-    var uid: Int = 0,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "run_Id")
+    var runId: String,
     @ColumnInfo(name = "rD_ID")
     var rDID: String,
     @ColumnInfo(name = "race_Id")
@@ -24,8 +25,6 @@ data class RunnerEntity(
     var runDistance: String,
     @ColumnInfo(name = "run_Firstname")
     var runFirstname: String,
-    @ColumnInfo(name = "run_Id")
-    var runId: String,
     @ColumnInfo(name = "run_Image")
     var runImage: String,
     @ColumnInfo(name = "run_Lastname")

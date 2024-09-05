@@ -61,6 +61,7 @@ class TrackRunnerFragment :
 
     override fun observeViewModel() {
         viewModel.displayRunners.observe(viewLifecycleOwner) {
+            binding.tvInRaceTotal.text = ": ${it.size}"
             trackRunnerAdapter.submitList(it)
             Handler(Looper.myLooper()!!).postDelayed({
                 trackRunnerAdapter.notifyDataSetChanged()

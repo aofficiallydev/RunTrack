@@ -9,7 +9,7 @@ import androidx.room.Update
 @Dao
 interface RunnerDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllUser(userList: List<RunnerEntity>)
 
     @Query("select * from runnerentity")

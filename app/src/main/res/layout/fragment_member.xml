@@ -40,15 +40,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRunnerStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing8"
+                android:paddingHorizontal="@dimen/spacing16"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:text="@string/runner_status_all" />
+
             <include
                 android:id="@+id/editTextLayout"
                 layout="@layout/layout_edittext_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing16"
+                android:layout_marginTop="@dimen/spacing8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvRunnerStatus" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMember"

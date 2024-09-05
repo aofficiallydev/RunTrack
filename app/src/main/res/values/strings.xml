@@ -24,4 +24,5 @@
     <string name="upload_title">Upload Complete</string>
     <string name="upload_empty_des">No data to upload</string>
     <string name="upload_has_data_des">Uploaded %s runners successfully!</string>
+    <string name="runner_status_all">All: %1$d | In race: %2$d | DNF: %3$d</string>
 </resources>

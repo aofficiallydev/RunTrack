@@ -7,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.aofficially.runtrack.base.BaseViewModel
 import com.aofficially.runtrack.database.RunnerDatabase
 import com.aofficially.runtrack.database.RunnerEntity
-import com.aofficially.runtrack.extensions.getCurrentDate
-import com.aofficially.runtrack.extensions.getCurrentTime
+import com.aofficially.runtrack.extensions.getCurrentDateTime
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Calendar
@@ -36,10 +35,10 @@ class ScanViewModel @Inject constructor() : BaseViewModel() {
                 .runnerDao()
                 .getRunner(runBib)?.let { runner ->
                     runner.timeStamp = Calendar.getInstance().timeInMillis
-                    runner.dateIn = getCurrentDate()
-                    runner.dateOut = getCurrentDate()
-                    runner.timeInt = getCurrentTime()
-                    runner.timeOut = getCurrentTime()
+                    runner.dateIn = getCurrentDateTime("dd/MM/yyyy")
+                    runner.dateOut = getCurrentDateTime("dd/MM/yyyy")
+                    runner.timeInt = getCurrentDateTime()
+                    runner.timeOut = getCurrentDateTime()
                     runner.runStatus =
                         if (isInRace) RunnerStatus.IN_RACE.status else RunnerStatus.DNF.status
                     runner.hasUpdate = true

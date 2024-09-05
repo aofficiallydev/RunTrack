@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aofficially.runtrack.databinding.LayoutSecondTimePickerBinding
-import com.aofficially.runtrack.extensions.getCurrentTime
+import com.aofficially.runtrack.extensions.getCurrentDateTime
 import com.aofficially.runtrack.extensions.setOnClickWithDebounce
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -16,7 +16,7 @@ class SecondBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: LayoutSecondTimePickerBinding
 
-    private var secondSelected = getCurrentTime("ss").toInt()
+    private var secondSelected = getCurrentDateTime("ss").toInt()
     var onSelectedListener: ((Int) -> Unit)? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +45,7 @@ class SecondBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.numberPicker.apply {
-            value = getCurrentTime("ss").toInt()
+            value = getCurrentDateTime("ss").toInt()
             setOnValueChangedListener { _, _, newVal ->
                 secondSelected = newVal
             }

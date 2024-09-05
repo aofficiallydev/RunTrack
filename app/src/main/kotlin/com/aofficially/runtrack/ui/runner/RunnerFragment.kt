@@ -45,6 +45,10 @@ class RunnerFragment :
             runnerAdapter.submitList(it)
         }
 
+        viewModel.displayRunnerSize.observe(viewLifecycleOwner) {
+            binding.tvRunnerStatus.text = getString(R.string.runner_status_all, it.all, it.inRace, it.dnf)
+        }
+
         shareViewModel.fetchRunnerList.observe(viewLifecycleOwner) {
             viewModel.getMemberList(requireContext())
         }

@@ -7,8 +7,7 @@ import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
 import com.aofficially.runtrack.base.BaseActivity
 import com.aofficially.runtrack.databinding.ActivityManualBinding
-import com.aofficially.runtrack.extensions.getCurrentDate
-import com.aofficially.runtrack.extensions.getCurrentTime
+import com.aofficially.runtrack.extensions.getCurrentDateTime
 import com.aofficially.runtrack.extensions.setOnClickWithDebounce
 import com.aofficially.runtrack.ui.addtracking.manual.bottomsheet.SecondBottomSheetDialog
 import com.aofficially.runtrack.ui.addtracking.manual.picker.DatePickerFragment
@@ -31,9 +30,9 @@ class ManualActivity :
     }
 
     private fun setupView() = with(binding) {
-        tvDate.text = getCurrentDate()
-        tvHourTime.text = getCurrentTime("HH:mm")
-        tvSecTime.text = "${getCurrentTime("ss")}s"
+        tvDate.text = getCurrentDateTime("dd/MM/yyyy")
+        tvHourTime.text = getCurrentDateTime("HH:mm")
+        tvSecTime.text = "${getCurrentDateTime("ss")}s"
     }
 
     override fun observeViewModel() {
@@ -99,7 +98,7 @@ class ManualActivity :
         datePicker.show(supportFragmentManager, "")
         datePicker.onDateSelected = { year, month, day ->
 
-            val date = "${String.format("%02d", day)}/${String.format("%02d", month)}/${year + 543}"
+            val date = "${String.format("%02d", day)}/${String.format("%02d", month)}/${year}"
             binding.tvDate.text = date
         }
     }
