@@ -39,6 +39,9 @@ class MainViewModel @Inject constructor(
     private val _resetRunner = MutableLiveData<Unit>()
     val resetRunner: LiveData<Unit> = _resetRunner
 
+    private val _upLoadFail = MutableLiveData<Unit>()
+    val upLoadFail: LiveData<Unit> = _upLoadFail
+
     private val _uploadSuccess = MutableLiveData<Int>()
     val uploadSuccess: LiveData<Int> = _uploadSuccess
 
@@ -92,7 +95,9 @@ class MainViewModel @Inject constructor(
                 showLoading()
                 uploadRunnerUseCase.execute(runnerList)
                     .flowOn(Dispatchers.IO)
-                    .catch { }
+                    .catch {
+                        _upLoadFail.value = Unit
+                    }
                     .onEach { _ ->
                         runnerList.map {
                             it.isUpLoaded = true
@@ -119,7 +124,7 @@ class MainViewModel @Inject constructor(
                 it.timeStamp = 0
                 it.dateIn = ""
                 it.dateOut = ""
-                it.timeInt = ""
+                it.timeIn = ""
                 it.timeOut = ""
                 it.runStatus = RunnerStatus.IN_RACE.status
                 it.hasUpdate = false
@@ -157,7 +162,9 @@ class MainViewModel @Inject constructor(
     private fun requestUploadRunnerList(context: Context, runnerList: List<RunnerEntity>) {
         uploadRunnerUseCase.execute(runnerList)
             .flowOn(Dispatchers.IO)
-            .catch { }
+            .catch {
+                _upLoadFail.value = Unit
+            }
             .onEach { _ ->
                 runnerList.map {
                     it.isUpLoaded = true

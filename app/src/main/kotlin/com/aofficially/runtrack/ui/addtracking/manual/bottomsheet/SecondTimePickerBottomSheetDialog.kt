@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SecondBottomSheetDialog : BottomSheetDialogFragment() {
+class SecondTimePickerBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: LayoutSecondTimePickerBinding
 

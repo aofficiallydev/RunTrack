@@ -2,6 +2,8 @@
     <string name="app_name">RunTrack</string>
     <string name="common_ok">OK</string>
     <string name="common_login">Login</string>
+    <string name="common_retry">Retry</string>
+    <string name="common_cancel">Cancel</string>
     <string name="running_events">Running Events</string>
     <string name="hint_username">User name</string>
     <string name="hint_Password">Password</string>
@@ -21,8 +23,10 @@
     <string name="reset_runner_des">Do you want to reset this Tracking?</string>
     <string name="button_add">+ Add</string>
     <string name="search">Search</string>
-    <string name="upload_title">Upload Complete</string>
+    <string name="upload_complete_title">Upload Complete</string>
     <string name="upload_empty_des">No data to upload</string>
     <string name="upload_has_data_des">Uploaded %s runners successfully!</string>
     <string name="runner_status_all">All: %1$d | In race: %2$d | DNF: %3$d</string>
+    <string name="upload_fail_title">Upload Fail</string>
+    <string name="upload_fail_des">Would you like to try again?</string>
 </resources>

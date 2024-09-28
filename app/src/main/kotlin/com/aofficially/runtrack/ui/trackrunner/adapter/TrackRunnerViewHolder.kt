@@ -66,8 +66,8 @@ class TrackRunnerViewHolder(val binding: ItemRunnerBinding) :
             tvName.text = "${item.runFirstname} ${item.runLastname}"
             tvNameHeader.text = "${item.runFirstname} ${item.runLastname}"
 
-            tvTime.text = item.timeInt
-            tvTimeHeader.text = item.timeInt
+            tvTime.text = item.timeIn
+            tvTimeHeader.text = item.timeIn
 
             tvDate.text = item.dateIn
 

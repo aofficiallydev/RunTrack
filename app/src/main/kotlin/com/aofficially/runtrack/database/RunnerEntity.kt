@@ -46,7 +46,7 @@ data class RunnerEntity(
     @ColumnInfo(name = "dateIn")
     var dateIn: String = "",
     @ColumnInfo(name = "timeInt")
-    var timeInt: String = "",
+    var timeIn: String = "",
     @ColumnInfo(name = "dateOut")
     var dateOut: String = "",
     @ColumnInfo(name = "timeOut")

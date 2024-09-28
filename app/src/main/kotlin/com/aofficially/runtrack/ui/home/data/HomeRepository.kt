@@ -35,7 +35,7 @@ class HomeRepository @Inject constructor(
         traDateout = this.dateOut,
         traDistance = this.runDistance,
         traStatus = this.runStatus,
-        traTimein = this.timeInt,
+        traTimein = this.timeIn,
         traTimeout = this.timeOut
     )
 }

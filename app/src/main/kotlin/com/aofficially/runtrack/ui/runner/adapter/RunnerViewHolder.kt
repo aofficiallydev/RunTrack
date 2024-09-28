@@ -22,7 +22,7 @@ class RunnerViewHolder(val binding: ItemRunnerBinding) : RecyclerView.ViewHolder
 
             tvBib.text = item.runBid
             tvName.text = "${item.runFirstname} ${item.runLastname}"
-            tvTime.text = item.timeInt
+            tvTime.text = item.timeIn
             tvDate.text = item.dateIn
             tvGroup.text = "${item.runSex} ${item.runDistance}"
 

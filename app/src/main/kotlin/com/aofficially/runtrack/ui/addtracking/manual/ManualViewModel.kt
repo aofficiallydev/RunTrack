@@ -61,7 +61,7 @@ class ManualViewModel @Inject constructor() : BaseViewModel() {
                 runner.dateOut = date
 
                 val time = "${hour}:${second}"
-                runner.timeInt = time
+                runner.timeIn = time
                 runner.timeOut = time
                 runner.runStatus =
                     if (isInRace) RunnerStatus.IN_RACE.status else RunnerStatus.DNF.status

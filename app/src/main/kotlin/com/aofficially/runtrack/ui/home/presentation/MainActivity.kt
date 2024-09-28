@@ -104,6 +104,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             setViewReadyUpload()
             showUploadListEmpty()
         }
+
+        viewModel.upLoadFail.observe(this) {
+            setViewReadyUpload()
+            showUploadFail()
+        }
     }
 
     override fun setupListener() {
@@ -181,7 +186,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun showUploadListEmpty() {
         dialogUtility.showAlertDialog(
             context = this,
-            title = getString(R.string.upload_title),
+            title = getString(R.string.upload_complete_title),
             message = getString(R.string.upload_empty_des),
             positiveText = getString(R.string.common_ok),
             onPositive = {
@@ -193,10 +198,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun showUploadSuccess(count: Int) {
         dialogUtility.showAlertDialog(
             context = this,
-            title = getString(R.string.upload_title),
+            title = getString(R.string.upload_complete_title),
             message = getString(R.string.upload_has_data_des, count.toString()),
             positiveText = getString(R.string.common_ok),
             onPositive = {
+
+            }
+        )
+    }
+
+    private fun showUploadFail() {
+        dialogUtility.showAlertDialog(
+            context = this,
+            title = getString(R.string.upload_fail_title),
+            message = getString(R.string.upload_fail_des),
+            positiveText = getString(R.string.common_retry),
+            onPositive = {
+                binding.headerLayout.imgUpload.performClick()
+            },
+            negativeText = getString(R.string.common_cancel),
+            onNegative = {
 
             }
         )

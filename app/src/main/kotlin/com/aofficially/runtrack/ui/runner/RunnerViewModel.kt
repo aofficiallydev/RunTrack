@@ -22,32 +22,48 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
     private val _displayRunnerSize = MutableLiveData<RunnerSize>()
     val displayRunnerSize: LiveData<RunnerSize> = _displayRunnerSize
 
+    private val _displayRunnerAdded = MutableLiveData<String>()
+    val displayRunnerAdded: LiveData<String> = _displayRunnerAdded
+
     private var runnerList: List<RunnerEntity> = mutableListOf()
 
     fun getMemberList(context: Context) {
         viewModelScope.launch {
             runnerList = RunnerDatabase(context)
                 .runnerDao()
-                .getAllRunner()
+                .getAllRunner().also { list ->
+                    val runnerGroupBy = list.sortedByDescending { it.runDistance }.groupBy { it.runDistance }
+                    var resultList = ""
+                    runnerGroupBy.map {
+                        val key = it.key
 
-            _displayRunners.value = filterRunnerToDisplay()
-            _displayRunnerSize.value = RunnerSize(
-                all = runnerList.size,
-                inRace = filterRunnerInRace(),
-                dnf = filterRunnerDNF()
-            )
+                        val inRace = it.value.filter { it.timeIn.isNotEmpty() }
+                            .filter { it.runStatus == RunnerStatus.IN_RACE.status }.size
+                        val dnf = it.value.filter { it.timeIn.isNotEmpty() }
+                            .filter { it.runStatus == RunnerStatus.DNF.status }.size
+
+                        resultList += "$key | Inrace $inRace Dnf $dnf\n"
+                    }
+
+                    _displayRunnerAdded.value = resultList
+                    _displayRunnerSize.value = RunnerSize(
+                        all = list.size,
+                        inRace = filterRunnerInRace(list),
+                        dnf = filterRunnerDNF(list)
+                    )
+                }
         }
     }
 
-    private fun filterRunnerInRace(): Int {
-        return runnerList.filter { it.hasUpdate }
+    private fun filterRunnerInRace(list: List<RunnerEntity>): Int {
+        return list.filter { it.hasUpdate }
             .filter {
                 it.runStatus == RunnerStatus.IN_RACE.status
             }.size
     }
 
-    private fun filterRunnerDNF(): Int {
-        return runnerList.filter { it.hasUpdate }
+    private fun filterRunnerDNF(list: List<RunnerEntity>): Int {
+        return list.filter { it.hasUpdate }
             .filter {
                 it.runStatus == RunnerStatus.DNF.status
             }.size
@@ -61,7 +77,7 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
                     runner.timeStamp = 0
                     runner.dateIn = ""
                     runner.dateOut = ""
-                    runner.timeInt = ""
+                    runner.timeIn = ""
                     runner.timeOut = ""
                     runner.runStatus = RunnerStatus.IN_RACE.status
                     runner.hasUpdate = false
@@ -75,9 +91,9 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
     private suspend fun updateRunner(context: Context, runner: RunnerEntity) {
         RunnerDatabase(context)
             .runnerDao()
-            .updateRunner(runner)
-
-        getMemberList(context)
+            .updateRunner(runner).also {
+                getMemberList(context)
+            }
     }
 
     fun findRunner(context: Context, keyword: String) {

@@ -69,7 +69,7 @@ class ScanActivity :
                 activity = this,
                 runBib = it.runBid,
                 runName = "${it.runFirstname} ${it.runLastname}",
-                runTime = it.timeInt,
+                runTime = it.timeIn,
                 runGroup = "${it.runSex} ${it.runDistance}",
                 runDate = it.dateIn,
                 isInRace = it.runStatus == RunnerStatus.IN_RACE.status

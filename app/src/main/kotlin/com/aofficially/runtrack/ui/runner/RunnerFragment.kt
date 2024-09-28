@@ -27,6 +27,7 @@ class RunnerFragment :
     override fun onResume() {
         super.onResume()
         viewModel.getMemberList(requireContext())
+        fetchRunnerDisplayed()
     }
 
     private fun setupView() = with(binding) {
@@ -49,26 +50,44 @@ class RunnerFragment :
             binding.tvRunnerStatus.text = getString(R.string.runner_status_all, it.all, it.inRace, it.dnf)
         }
 
+        viewModel.displayRunnerAdded.observe(viewLifecycleOwner) {
+            binding.tvRunnerAdded.text = it
+        }
+
         shareViewModel.fetchRunnerList.observe(viewLifecycleOwner) {
             viewModel.getMemberList(requireContext())
+            fetchRunnerDisplayed()
         }
     }
 
     override fun setupListener() {
         binding.editTextLayout.apply {
-            edtSearch.doOnTextChanged { text, _, _, _ ->
+            edtSearch.doOnTextChanged { text, start, _, _ ->
                 if (text.toString().isNotEmpty()) {
                     imgClear.visible()
+
+                    if (text.toString().length >= 2) {
+                        viewModel.findRunner(requireContext(), text.toString())
+                    }
                 } else {
                     imgClear.gone()
+                    runnerAdapter.submitList(listOf())
                 }
 
-                viewModel.findRunner(requireContext(), text.toString())
             }
 
             imgClear.setOnClickWithDebounce {
                 edtSearch.setText("")
             }
+        }
+    }
+
+    private fun fetchRunnerDisplayed() {
+        if (binding.editTextLayout.edtSearch.text.toString().isNotEmpty()) {
+            viewModel.findRunner(
+                requireContext(),
+                binding.editTextLayout.edtSearch.text.toString()
+            )
         }
     }
 
@@ -79,6 +98,7 @@ class RunnerFragment :
             message = getString(R.string.reset_runner_des),
             positiveText = getString(R.string.reset),
             onPositive = {
+                binding.editTextLayout.edtSearch.setText("")
                 viewModel.resetRunner(requireContext(), runBid)
             },
             negativeText = getString(R.string.cancel),

@@ -37,7 +37,7 @@ class ScanViewModel @Inject constructor() : BaseViewModel() {
                     runner.timeStamp = Calendar.getInstance().timeInMillis
                     runner.dateIn = getCurrentDateTime("dd/MM/yyyy")
                     runner.dateOut = getCurrentDateTime("dd/MM/yyyy")
-                    runner.timeInt = getCurrentDateTime()
+                    runner.timeIn = getCurrentDateTime()
                     runner.timeOut = getCurrentDateTime()
                     runner.runStatus =
                         if (isInRace) RunnerStatus.IN_RACE.status else RunnerStatus.DNF.status

@@ -48,7 +48,7 @@ class TrackRunnerViewModel @Inject constructor() : BaseViewModel() {
                         it.timeStamp = 0
                         it.dateIn = ""
                         it.dateOut = ""
-                        it.timeInt = ""
+                        it.timeIn = ""
                         it.timeOut = ""
                         it.runStatus = RunnerStatus.IN_RACE.status
                         it.hasUpdate = false

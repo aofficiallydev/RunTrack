@@ -9,7 +9,7 @@ import com.aofficially.runtrack.base.BaseActivity
 import com.aofficially.runtrack.databinding.ActivityManualBinding
 import com.aofficially.runtrack.extensions.getCurrentDateTime
 import com.aofficially.runtrack.extensions.setOnClickWithDebounce
-import com.aofficially.runtrack.ui.addtracking.manual.bottomsheet.SecondBottomSheetDialog
+import com.aofficially.runtrack.ui.addtracking.manual.bottomsheet.SecondTimePickerBottomSheetDialog
 import com.aofficially.runtrack.ui.addtracking.manual.picker.DatePickerFragment
 import com.aofficially.runtrack.ui.addtracking.manual.picker.TimePickerFragment
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
@@ -56,7 +56,7 @@ class ManualActivity :
                 activity = this,
                 runBib = it.runBid,
                 runName = "${it.runFirstname} ${it.runLastname}",
-                runTime = it.timeInt,
+                runTime = it.timeIn,
                 runGroup = "${it.runSex} ${it.runDistance}",
                 runDate = it.dateIn,
                 isInRace = it.runStatus == RunnerStatus.IN_RACE.status
@@ -114,7 +114,7 @@ class ManualActivity :
     }
 
     private fun showSecondTimeDialog() {
-        val secPicker = SecondBottomSheetDialog()
+        val secPicker = SecondTimePickerBottomSheetDialog()
         supportFragmentManager.let { secPicker.show(it, "LogoutBottomSheetDialog") }
         secPicker.onSelectedListener = {
             binding.tvSecTime.text = "${it}s"
