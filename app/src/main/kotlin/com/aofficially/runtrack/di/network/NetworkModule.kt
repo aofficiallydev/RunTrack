@@ -3,6 +3,8 @@ package com.aofficially.runtrack.di.network
 import android.content.Context
 import com.aofficially.runtrack.BuildConfig
 import com.aofficially.runtrack.di.network.interceptor.InterceptorModule
+import com.aofficially.runtrack.utils.preference.PreferenceDataSource
+import com.aofficially.runtrack.utils.preference.PreferenceDataSourceImp.Companion.KEY_CUSTOM_DOMAIN
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -34,7 +36,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitInterface(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofitInterface(okHttpClient: OkHttpClient, pref: PreferenceDataSource): Retrofit {
         val gsonBuilder = GsonBuilder().setLenient()
         val gson = gsonBuilder.create()
         val gsonConverterFactory = GsonConverterFactory.create(gson)
@@ -43,7 +45,7 @@ class NetworkModule {
         )
 
         return Retrofit.Builder()
-            .baseUrl(NetworkConfig.BASE_URL)
+            .baseUrl(pref.getString(KEY_CUSTOM_DOMAIN, NetworkConfig.BASE_URL) + "api/PlaceInfo/")
             .addConverterFactory(gsonConverterFactory)
             .addCallAdapterFactory(rxJava2CallAdapterFactory)
             .client(okHttpClient)

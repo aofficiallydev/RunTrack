@@ -7,7 +7,7 @@ class LoginRepository @Inject constructor(
     private val dataSource: LoginDataSource
 ) {
 
-    suspend fun login(username: String, password: String): LoginResponse {
-        return dataSource.login(username, password)
+    suspend fun login(username: String, password: String, raceId: String): LoginResponse {
+        return dataSource.login(username, password, raceId)
     }
 }

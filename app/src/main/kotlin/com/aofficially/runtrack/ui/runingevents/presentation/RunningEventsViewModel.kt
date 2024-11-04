@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.aofficially.runtrack.base.BaseViewModel
+import com.aofficially.runtrack.di.network.NetworkConfig
 import com.aofficially.runtrack.ui.runingevents.domain.GetRunningEventsUseCase
 import com.aofficially.runtrack.ui.runingevents.domain.RunningEventsModel
 import com.aofficially.runtrack.utils.SingleLiveEvent
 import com.aofficially.runtrack.utils.preference.PreferenceDataSource
+import com.aofficially.runtrack.utils.preference.PreferenceDataSourceImp.Companion.KEY_CUSTOM_DOMAIN
 import com.aofficially.runtrack.utils.preference.PreferenceDataSourceImp.Companion.KEY_RACE_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,6 +33,9 @@ class RunningEventsViewModel @Inject constructor(
     private val _navigateToHomePage = SingleLiveEvent<Unit>()
     val navigateToHomePage: LiveData<Unit> = _navigateToHomePage
 
+    private val _handleChangeDomainDialog = SingleLiveEvent<Unit>()
+    val handleChangeDomainDialog: LiveData<Unit> = _handleChangeDomainDialog
+
     fun getRunningEvent() {
         val raceId = pref.getString(KEY_RACE_ID)
         if (raceId.isEmpty()) {
@@ -46,5 +51,17 @@ class RunningEventsViewModel @Inject constructor(
         } else {
             _navigateToHomePage.value = Unit
         }
+    }
+
+    fun getDomain(): String {
+        val url = pref.getString(KEY_CUSTOM_DOMAIN, "")
+        return url.ifEmpty {
+            NetworkConfig.BASE_URL
+        }
+    }
+
+    fun setDomain(domain: String) {
+        pref.putString(KEY_CUSTOM_DOMAIN, domain)
+        _handleChangeDomainDialog.value = Unit
     }
 }

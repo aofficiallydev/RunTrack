@@ -17,7 +17,7 @@ class LoginUseCase @Inject constructor(
 
     fun execute(raceId: String, username: String, password: String): Flow<LoginResponse> {
         return flow {
-            repo.login(username, password).also {
+            repo.login(username, password, raceId).also {
                 pref.putString(KEY_RACE_ID, raceId)
                 pref.putString(KEY_STATION_ID, it.stationId)
                 pref.putString(KEY_STATION_NAME, it.stationName)

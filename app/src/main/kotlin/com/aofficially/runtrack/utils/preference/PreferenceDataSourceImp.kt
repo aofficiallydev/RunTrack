@@ -13,6 +13,7 @@ class PreferenceDataSourceImp @Inject constructor(@ApplicationContext val contex
         const val KEY_RACE_ID = "key_raceID"
         const val KEY_STATION_ID = "key_stationID"
         const val KEY_STATION_NAME = "key_stationName"
+        const val KEY_CUSTOM_DOMAIN = "key_customDomain"
     }
 
     private fun sharedPreferences() =

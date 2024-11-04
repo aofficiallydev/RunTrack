@@ -32,10 +32,10 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
             runnerList = RunnerDatabase(context)
                 .runnerDao()
                 .getAllRunner().also { list ->
-                    val runnerGroupBy = list.sortedByDescending { it.runDistance }.groupBy { it.runDistance }
+                    val runnerGroupBy = list.sortedByDescending { it.rDID }.groupBy { it.rDID }
                     var resultList = ""
-                    runnerGroupBy.map {
-                        val key = it.key
+                    runnerGroupBy.onEachIndexed { index, it ->
+                        val key = it.value[index].runDistance
 
                         val inRace = it.value.filter { it.timeIn.isNotEmpty() }
                             .filter { it.runStatus == RunnerStatus.IN_RACE.status }.size

@@ -20,16 +20,28 @@ object DialogView : DialogUtility {
         positiveText: String,
         negativeText: String,
         cancelable: Boolean,
-        onPositive: (() -> Unit),
+        onPositive: ((String) -> Unit),
         onNegative: (() -> Unit),
-        contentAlignment: Int
+        contentAlignment: Int,
+        isShowEditText: Boolean,
+        informEditText: String
     ): AlertDialog {
         binding = getLayout(LayoutInflater.from(context))
         val builder = AlertDialog.Builder(context)
         builder.setView(binding?.root)
         builder.setCancelable(cancelable)
         val alert = builder.create()
-        setButtonListener(title, message, positiveText, onPositive, alert, negativeText, onNegative)
+        setButtonListener(
+            title,
+            message,
+            positiveText,
+            onPositive,
+            alert,
+            negativeText,
+            onNegative,
+            isShowEditText,
+            informEditText
+        )
         alert.window?.decorView?.setBackgroundResource(android.R.color.transparent)
         alert.show()
         return alert
@@ -43,20 +55,34 @@ object DialogView : DialogUtility {
         title: String,
         message: String,
         positiveText: String,
-        onPositive: (() -> Unit)?,
+        onPositive: ((String) -> Unit)?,
         alert: AlertDialog,
         negativeText: String,
-        onNegative: (() -> Unit)?
+        onNegative: (() -> Unit)?,
+        isShowEditText: Boolean,
+        informEditText: String
     ) {
 
         if (binding is CommonDialogBinding) {
             val dialogBinding = binding as CommonDialogBinding
-            dialogBinding.tvTitle.text = title
-            dialogBinding.tvDescription.text = message
+
+            if (isShowEditText) {
+                dialogBinding.tvTitle.gone()
+                dialogBinding.tvDescription.gone()
+                dialogBinding.edtDomain.visible()
+                dialogBinding.edtDomain.setText(informEditText)
+            } else {
+                dialogBinding.tvTitle.visible()
+                dialogBinding.tvDescription.visible()
+                dialogBinding.edtDomain.gone()
+
+                dialogBinding.tvTitle.text = title
+                dialogBinding.tvDescription.text = message
+            }
             if (positiveText.isNotEmpty()) {
                 dialogBinding.btnPositive.text = positiveText
                 dialogBinding.btnPositive.setOnClickWithDebounce {
-                    onPositive?.invoke()
+                    onPositive?.invoke(dialogBinding.edtDomain.text.toString())
                     alert.dismiss()
                 }
                 dialogBinding.btnPositive.visible()

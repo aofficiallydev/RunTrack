@@ -8,20 +8,30 @@
         android:id="@+id/tvRunningEvents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/running_events"
-        android:layout_marginTop="@dimen/spacing16"
         android:layout_marginStart="@dimen/spacing16"
+        android:layout_marginTop="@dimen/spacing16"
+        android:text="@string/running_events"
         android:textColor="@color/black"
         android:textSize="@dimen/text32"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icSetting"
+        android:layout_width="@dimen/spacing24"
+        android:layout_height="@dimen/spacing24"
+        android:layout_marginEnd="@dimen/spacing16"
+        app:layout_constraintBottom_toBottomOf="@id/tvRunningEvents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvRunningEvents"
+        app:srcCompat="@drawable/ic_setting" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRunningEvents"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="@dimen/spacing16"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing16"
         android:layout_marginTop="@dimen/spacing16"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"

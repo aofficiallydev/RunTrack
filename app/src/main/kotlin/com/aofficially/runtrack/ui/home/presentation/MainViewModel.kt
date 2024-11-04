@@ -114,6 +114,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun clearRunner(context: Context) {
+        viewModelScope.launch {
+            RunnerDatabase(context)
+                .runnerDao()
+                .clearRunner()
+        }
+    }
+
     fun resetRunnerList(context: Context) {
         viewModelScope.launch {
             val runnerList = RunnerDatabase(context)

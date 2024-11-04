@@ -12,8 +12,10 @@ interface DialogUtility {
         positiveText: String = "",
         negativeText: String = "",
         cancelable: Boolean = false,
-        onPositive: (() -> Unit) = {},
+        onPositive: ((String) -> Unit) = {},
         onNegative: (() -> Unit) = {},
-        contentAlignment: Int = View.TEXT_ALIGNMENT_CENTER
+        contentAlignment: Int = View.TEXT_ALIGNMENT_CENTER,
+        isShowEditText: Boolean = false,
+        informEditText: String = ""
     ): AlertDialog
 }

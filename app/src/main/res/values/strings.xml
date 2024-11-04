@@ -29,4 +29,6 @@
     <string name="runner_status_all">All: %1$d | In race: %2$d | DNF: %3$d</string>
     <string name="upload_fail_title">Upload Fail</string>
     <string name="upload_fail_des">Would you like to try again?</string>
+    <string name="restart_app_title">Warning!!</string>
+    <string name="restart_app_description">Please remove task and Restart application</string>
 </resources>

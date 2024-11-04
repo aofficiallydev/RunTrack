@@ -42,6 +42,26 @@
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             tools:text="Description" />
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtDomain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing12"
+            android:background="@drawable/round12_white"
+            android:visibility="gone"
+            android:padding="@dimen/spacing12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Domain" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="edtDomain,tvDescription" />
+
         <View
             android:id="@+id/line1"
             android:layout_width="match_parent"
@@ -50,7 +70,7 @@
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+            app:layout_constraintTop_toBottomOf="@id/barrier" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnNegative"
