@@ -129,6 +129,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     showLogoutDialog()
                 }
 
+                bottomSheet.onRefreshRunner = {
+                    bottomSheet.dismiss()
+                    viewModel.refreshRunner(this@MainActivity)
+                }
+
                 bottomSheet.onResetListener = {
                     bottomSheet.dismiss()
                     showResetDialog()

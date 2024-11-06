@@ -14,6 +14,7 @@
     <string name="manual">Manual</string>
     <string name="logout">Logout</string>
     <string name="reset">Reset</string>
+    <string name="refresh_runner">Refresh runner</string>
     <string name="logout_title">Confirm Logout</string>
     <string name="logout_des">Are you sure you want to logout?</string>
     <string name="reset_title">Confirm Reset</string>

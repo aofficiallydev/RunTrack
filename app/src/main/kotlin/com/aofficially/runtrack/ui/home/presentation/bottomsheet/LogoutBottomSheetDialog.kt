@@ -17,6 +17,7 @@ class LogoutBottomSheetDialog(private val isShowResetButton: Boolean) : BottomSh
 
     private lateinit var binding: LayoutLogoutBottomSheetBinding
 
+    var onRefreshRunner: (() -> Unit)? = null
     var onLogoutListener: (() -> Unit)? = null
     var onResetListener: (() -> Unit)? = null
     override fun onCreateView(
@@ -53,6 +54,10 @@ class LogoutBottomSheetDialog(private val isShowResetButton: Boolean) : BottomSh
         setup()
         binding.btnLogout.setOnClickWithDebounce {
             onLogoutListener?.invoke()
+        }
+
+        binding.btnRefresh.setOnClickWithDebounce {
+            onRefreshRunner?.invoke()
         }
 
         binding.btnReset.setOnClickWithDebounce {

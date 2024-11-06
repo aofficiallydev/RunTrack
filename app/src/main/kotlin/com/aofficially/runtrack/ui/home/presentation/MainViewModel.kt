@@ -76,7 +76,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             RunnerDatabase(context)
                 .runnerDao()
-                .insertAllUser(runners)
+                .insertAllUser(runners).also {
+                    _resetRunner.value = Unit
+                }
         }
     }
 
@@ -114,11 +116,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun clearRunner(context: Context) {
+    fun refreshRunner(context: Context) {
         viewModelScope.launch {
             RunnerDatabase(context)
                 .runnerDao()
-                .clearRunner()
+                .clearRunner().also {
+                    getRunnerList(context)
+                }
         }
     }
 
