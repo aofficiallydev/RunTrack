@@ -6,6 +6,6 @@ import retrofit2.http.Path
 
 interface LoginService {
 
-    @GET("user/{username}:{password}")
+    @GET("user/{username}:{password}:{raceId}")
     suspend fun login(@Path("username") username: String, @Path("password") password: String, @Path("raceId") raceId: String): Response<LoginResponse>
 }
