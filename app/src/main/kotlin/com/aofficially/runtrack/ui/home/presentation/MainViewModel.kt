@@ -148,12 +148,14 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun updateRunnerAfterReset(context: Context, runner: List<RunnerEntity>) {
+        showLoading()
         runner.map {
             RunnerDatabase(context)
                 .runnerDao()
                 .updateRunner(it)
         }
 
+        hideLoading()
         _resetRunner.value = Unit
     }
 

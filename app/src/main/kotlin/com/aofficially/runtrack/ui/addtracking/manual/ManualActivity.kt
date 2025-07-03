@@ -3,6 +3,8 @@ package com.aofficially.runtrack.ui.addtracking.manual
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
 import com.aofficially.runtrack.base.BaseActivity
@@ -15,6 +17,8 @@ import com.aofficially.runtrack.ui.addtracking.manual.picker.TimePickerFragment
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
 import com.aofficially.runtrack.utils.NewNotificationUtil
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
@@ -22,6 +26,25 @@ class ManualActivity :
     BaseActivity<ActivityManualBinding>(ActivityManualBinding::inflate) {
 
     private val viewModel: ManualViewModel by viewModels()
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var timeUpdater = object : Runnable {
+        override fun run() {
+            val currentTime = LocalDateTime.now()
+            val HourFormatter = DateTimeFormatter.ofPattern("HH:mm")
+            val HourFformattedTime = currentTime.format(HourFormatter)
+            binding.tvHourTime.text = HourFformattedTime
+
+            val secFormatter = DateTimeFormatter.ofPattern("ss")
+            val secFormattedTime = currentTime.format(secFormatter)
+            binding.tvSecTime.text = "${secFormattedTime}s"
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(timeUpdater)
+    }
 
     override fun initView() {
         val isInRace = intent.extras?.getBoolean(BUNDLE_IS_IN_RACE) ?: false
@@ -33,6 +56,8 @@ class ManualActivity :
         tvDate.text = getCurrentDateTime("dd/MM/yyyy")
         tvHourTime.text = getCurrentDateTime("HH:mm")
         tvSecTime.text = "${getCurrentDateTime("ss")}s"
+
+        handler.post(timeUpdater)
     }
 
     override fun observeViewModel() {
