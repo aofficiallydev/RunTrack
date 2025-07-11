@@ -14,8 +14,8 @@ android {
 
     defaultConfig {
         applicationId = "com.aofficially.runtrack"
-        minSdk = 26
-        targetSdk = 35
+        minSdk = 28
+        targetSdk = 36
         versionCode = 9
         versionName = "1.0.0"
 

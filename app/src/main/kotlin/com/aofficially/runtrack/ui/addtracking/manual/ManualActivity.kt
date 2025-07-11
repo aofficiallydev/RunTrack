@@ -27,23 +27,25 @@ class ManualActivity :
 
     private val viewModel: ManualViewModel by viewModels()
 
-    private val handler = Handler(Looper.getMainLooper())
-    private var timeUpdater = object : Runnable {
-        override fun run() {
-            val currentTime = LocalDateTime.now()
-            val HourFormatter = DateTimeFormatter.ofPattern("HH:mm")
-            val HourFformattedTime = currentTime.format(HourFormatter)
-            binding.tvHourTime.text = HourFformattedTime
-
-            val secFormatter = DateTimeFormatter.ofPattern("ss")
-            val secFormattedTime = currentTime.format(secFormatter)
-            binding.tvSecTime.text = "${secFormattedTime}s"
-        }
-    }
+//    private val handler = Handler(Looper.getMainLooper())
+//    private var timeUpdater = object : Runnable {
+//        override fun run() {
+//            val currentTime = LocalDateTime.now()
+//            val HourFormatter = DateTimeFormatter.ofPattern("HH:mm")
+//            val HourFformattedTime = currentTime.format(HourFormatter)
+//            binding.tvHourTime.text = HourFformattedTime
+//
+//            val secFormatter = DateTimeFormatter.ofPattern("ss")
+//            val secFormattedTime = currentTime.format(secFormatter)
+//            binding.tvSecTime.text = "${secFormattedTime}s"
+//
+//            handler.postDelayed(this, 1000)
+//        }
+//    }
 
     override fun onPause() {
         super.onPause()
-        handler.removeCallbacks(timeUpdater)
+//        handler.removeCallbacks(timeUpdater)
     }
 
     override fun initView() {
@@ -57,7 +59,7 @@ class ManualActivity :
         tvHourTime.text = getCurrentDateTime("HH:mm")
         tvSecTime.text = "${getCurrentDateTime("ss")}s"
 
-        handler.post(timeUpdater)
+//        handler.post(timeUpdater)
     }
 
     override fun observeViewModel() {
