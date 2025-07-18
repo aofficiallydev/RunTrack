@@ -21,7 +21,7 @@ class TrackRunnerViewHolder(val binding: ItemRunnerBinding) :
         position: Int
     ) {
         binding.apply {
-            if (position == 0) {
+            if (position == 0 && item.isSetHead) {
                 itemHeaderLayout.visible()
                 itemRunnerLayout.gone()
 

@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
+import com.aofficially.runtrack.R
 import com.aofficially.runtrack.base.BaseActivity
 import com.aofficially.runtrack.databinding.ActivityManualBinding
 import com.aofficially.runtrack.extensions.getCurrentDateTime
@@ -15,6 +17,7 @@ import com.aofficially.runtrack.ui.addtracking.manual.bottomsheet.SecondTimePick
 import com.aofficially.runtrack.ui.addtracking.manual.picker.DatePickerFragment
 import com.aofficially.runtrack.ui.addtracking.manual.picker.TimePickerFragment
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
+import com.aofficially.runtrack.ui.trackrunner.adapter.TrackRunnerAdapter
 import com.aofficially.runtrack.utils.NewNotificationUtil
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
@@ -27,31 +30,37 @@ class ManualActivity :
 
     private val viewModel: ManualViewModel by viewModels()
 
-//    private val handler = Handler(Looper.getMainLooper())
-//    private var timeUpdater = object : Runnable {
-//        override fun run() {
-//            val currentTime = LocalDateTime.now()
-//            val HourFormatter = DateTimeFormatter.ofPattern("HH:mm")
-//            val HourFformattedTime = currentTime.format(HourFormatter)
-//            binding.tvHourTime.text = HourFformattedTime
-//
-//            val secFormatter = DateTimeFormatter.ofPattern("ss")
-//            val secFormattedTime = currentTime.format(secFormatter)
-//            binding.tvSecTime.text = "${secFormattedTime}s"
-//
-//            handler.postDelayed(this, 1000)
-//        }
-//    }
+    private val trackRunnerAdapter: TrackRunnerAdapter by lazy { TrackRunnerAdapter() }
+    private val handler = Handler(Looper.getMainLooper())
+    private var timeUpdater = object : Runnable {
+        override fun run() {
+            val currentTime = LocalDateTime.now()
+            val HourFormatter = DateTimeFormatter.ofPattern("HH:mm")
+            val HourFformattedTime = currentTime.format(HourFormatter)
+            binding.tvHourTime.text = HourFformattedTime
+
+            val secFormatter = DateTimeFormatter.ofPattern("ss")
+            val secFormattedTime = currentTime.format(secFormatter)
+            binding.tvSecTime.text = "${secFormattedTime}s"
+
+            val yearFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val yearFormattedTime = currentTime.format(yearFormatter)
+            binding.tvDate.text = yearFormattedTime
+
+            handler.postDelayed(this, 1000)
+        }
+    }
 
     override fun onPause() {
         super.onPause()
-//        handler.removeCallbacks(timeUpdater)
+        handler.removeCallbacks(timeUpdater)
     }
 
     override fun initView() {
         val isInRace = intent.extras?.getBoolean(BUNDLE_IS_IN_RACE) ?: false
         setupView()
-        viewModel.getMemberList(this, isInRace)
+        viewModel.setInRace(isInRace)
+        viewModel.getMemberList(this)
     }
 
     private fun setupView() = with(binding) {
@@ -59,7 +68,11 @@ class ManualActivity :
         tvHourTime.text = getCurrentDateTime("HH:mm")
         tvSecTime.text = "${getCurrentDateTime("ss")}s"
 
-//        handler.post(timeUpdater)
+        handler.post(timeUpdater)
+        recyclerView.adapter = trackRunnerAdapter
+        trackRunnerAdapter.onLongClickItemListener = {
+            showResetDialog(it.runBid)
+        }
     }
 
     override fun observeViewModel() {
@@ -89,16 +102,33 @@ class ManualActivity :
                 isInRace = it.runStatus == RunnerStatus.IN_RACE.status
             )
         }
+
+        viewModel.runnerAdded.observe(this) {
+            Toast.makeText(this, "Already add this runner", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.displayRunners.observe(this) {
+            trackRunnerAdapter.submitList(it)
+            trackRunnerAdapter.notifyDataSetChanged()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.recyclerView.smoothScrollToPosition(0)
+            }, 500)
+        }
     }
 
     override fun setupListener() {
         binding.numericKeyboard.field = binding.tvNumberBib
 
         binding.tvNumberBib.doOnTextChanged { text, _, _, _ ->
+            if (text.isNullOrEmpty()) {
+                handler.post(timeUpdater)
+            }
             viewModel.findRunnerByBib(text.toString())
         }
 
         binding.btnAdd.setOnClickWithDebounce {
+            handler.post(timeUpdater)
             viewModel.updateRunner(
                 context = this,
                 date = binding.tvDate.text.toString(),
@@ -124,7 +154,6 @@ class ManualActivity :
         val datePicker = DatePickerFragment()
         datePicker.show(supportFragmentManager, "")
         datePicker.onDateSelected = { year, month, day ->
-
             val date = "${String.format("%02d", day)}/${String.format("%02d", month)}/${year}"
             binding.tvDate.text = date
         }
@@ -134,7 +163,7 @@ class ManualActivity :
         val timePicker = TimePickerFragment()
         timePicker.show(supportFragmentManager, "")
         timePicker.onTimeSelected = { hour, min ->
-
+            handler.removeCallbacks(timeUpdater)
             val date = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
             binding.tvHourTime.text = date
         }
@@ -144,8 +173,23 @@ class ManualActivity :
         val secPicker = SecondTimePickerBottomSheetDialog()
         supportFragmentManager.let { secPicker.show(it, "LogoutBottomSheetDialog") }
         secPicker.onSelectedListener = {
+            handler.removeCallbacks(timeUpdater)
             binding.tvSecTime.text = "${it}s"
         }
+    }
+
+    private fun showResetDialog(runBid: String) {
+        dialogUtility.showAlertDialog(
+            context = this,
+            title = getString(R.string.reset_runner_title),
+            message = getString(R.string.reset_runner_des),
+            positiveText = getString(R.string.reset),
+            onPositive = {
+                viewModel.resetRunner(this, runBid)
+            },
+            negativeText = getString(R.string.cancel),
+            onNegative = {}
+        )
     }
 
     companion object {

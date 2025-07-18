@@ -53,4 +53,6 @@ data class RunnerEntity(
     var timeOut: String = "",
     @ColumnInfo(name = "timeStamp")
     var timeStamp: Long = 0,
+    @ColumnInfo(name = "isSetHead")
+    var isSetHead: Boolean = true
 )

@@ -32,6 +32,8 @@ class TrackRunnerViewModel @Inject constructor() : BaseViewModel() {
                 .runnerDao()
                 .getAllRunner()
 
+            runnerList.map { it.isSetHead = true }
+
             if (runnerList.isNotEmpty()) {
                 runnerFilterList = runnerList
                 _displayRunners.value = filterRunnerToDisplay()
