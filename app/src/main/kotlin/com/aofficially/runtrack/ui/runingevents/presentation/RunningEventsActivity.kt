@@ -23,6 +23,7 @@ class RunningEventsActivity :
         initLoadingView(viewModel.loadingState)
         setupRecycleView()
         viewModel.getRunningEvent()
+        setupNavigationView(binding.rvRunningEvents)
     }
 
     override fun observeViewModel() {

@@ -24,7 +24,6 @@
         <activity
             android:name=".ui.runingevents.presentation.RunningEventsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,21 +34,15 @@
 
         <activity
             android:name=".ui.home.presentation.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.login.presentation.LoginActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <activity
-            android:name=".ui.addtracking.scan.ScanActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.addtracking.scan.ScanActivity" />
 
-        <activity
-            android:name=".ui.addtracking.manual.ManualActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.addtracking.manual.ManualActivity" />
     </application>
 
 </manifest>

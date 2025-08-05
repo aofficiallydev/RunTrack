@@ -61,6 +61,7 @@ class ManualActivity :
         setupView()
         viewModel.setInRace(isInRace)
         viewModel.getMemberList(this)
+        setupNavigationView(binding.numericKeyboard)
     }
 
     private fun setupView() = with(binding) {

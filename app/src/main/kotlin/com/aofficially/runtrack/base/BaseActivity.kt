@@ -10,6 +10,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
 import com.aofficially.runtrack.R
@@ -43,6 +46,14 @@ abstract class BaseActivity<VB : ViewBinding>(inflate: (LayoutInflater) -> VB) :
         initView()
         observeViewModel()
         setupListener()
+    }
+
+    fun setupNavigationView(view: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun getStatusBarHeight(): Int {

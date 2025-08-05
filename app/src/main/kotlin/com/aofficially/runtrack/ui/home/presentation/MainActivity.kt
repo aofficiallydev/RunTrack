@@ -9,6 +9,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.aofficially.runtrack.R
 import com.aofficially.runtrack.base.BaseActivity
 import com.aofficially.runtrack.databinding.ActivityMainBinding
@@ -47,6 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initLoadingView(viewModel.loadingState)
         setupView()
         viewModel.getRunnerListFromLocalize(this)
+        setupNavigationView(binding.tabLayout)
     }
 
     private fun setupView() = with(binding) {
