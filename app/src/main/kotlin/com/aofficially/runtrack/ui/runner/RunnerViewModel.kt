@@ -9,6 +9,8 @@ import com.aofficially.runtrack.database.RunnerDatabase
 import com.aofficially.runtrack.database.RunnerEntity
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
 import com.aofficially.runtrack.ui.runner.domain.RunnerSize
+import com.aofficially.runtrack.utils.DateTimeUtils
+import com.aofficially.runtrack.utils.DateTimeUtils.sortFromDateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -111,7 +113,7 @@ class RunnerViewModel @Inject constructor() : BaseViewModel() {
     private fun filterRunnerToDisplay(): List<RunnerEntity> {
         return runnerList.any { it.timeStamp.toInt() != 0 }.let { hasData ->
             if (hasData) {
-                runnerList.sortedByDescending { it.timeStamp }
+                runnerList.sortedByDescending { sortFromDateTime(it.dateIn, it.timeIn) }
             } else {
                 runnerList.sortedBy { it.runBid }
             }

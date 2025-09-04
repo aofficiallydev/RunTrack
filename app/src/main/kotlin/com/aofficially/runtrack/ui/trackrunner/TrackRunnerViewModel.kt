@@ -8,6 +8,8 @@ import com.aofficially.runtrack.base.BaseViewModel
 import com.aofficially.runtrack.database.RunnerDatabase
 import com.aofficially.runtrack.database.RunnerEntity
 import com.aofficially.runtrack.ui.home.domain.RunnerStatus
+import com.aofficially.runtrack.utils.DateTimeUtils
+import com.aofficially.runtrack.utils.DateTimeUtils.sortFromDateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -99,6 +101,6 @@ class TrackRunnerViewModel @Inject constructor() : BaseViewModel() {
                     RunnerStatus.DNF.status
                 }
             }
-            .sortedByDescending { it.timeStamp }
+            .sortedByDescending { sortFromDateTime(it.dateIn, it.timeIn) }
     }
 }

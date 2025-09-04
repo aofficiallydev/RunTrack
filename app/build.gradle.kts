@@ -16,7 +16,7 @@ android {
         applicationId = "com.aofficially.runtrack"
         minSdk = 28
         targetSdk = 36
-        versionCode = 11
+        versionCode = 13
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

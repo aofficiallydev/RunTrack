@@ -43,10 +43,6 @@ class ManualActivity :
             val secFormattedTime = currentTime.format(secFormatter)
             binding.tvSecTime.text = "${secFormattedTime}s"
 
-            val yearFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            val yearFormattedTime = currentTime.format(yearFormatter)
-            binding.tvDate.text = yearFormattedTime
-
             handler.postDelayed(this, 1000)
         }
     }
@@ -155,7 +151,7 @@ class ManualActivity :
         val datePicker = DatePickerFragment()
         datePicker.show(supportFragmentManager, "")
         datePicker.onDateSelected = { year, month, day ->
-            val date = "${String.format("%02d", day)}/${String.format("%02d", month)}/${year}"
+            val date = "${String.format("%02d", day)}/${String.format("%02d", month + 1)}/${year}"
             binding.tvDate.text = date
         }
     }
